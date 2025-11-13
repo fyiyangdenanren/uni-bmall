@@ -3,15 +3,33 @@
 	"easycom": {
 		"autoscan": true,
 		"custom": {
-			// uni-ui 规则如下配置  
+			// uni-ui 规则如下配置
 			"^uni-(.*)": "@dcloudio/uni-ui/lib/uni-$1/uni-$1.vue"
 		}
 	},
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
-			"path": "pages/index/index",
+			"path": "pages/shelf/shelf",
 			"style": {
-				"navigationBarTitleText": "uni-app"
+				"navigationBarTitleText": "shelf"
+			}
+		},
+		{
+			"path": "pages/city/city",
+			"style": {
+				"navigationBarTitleText": "city"
+			}
+		},
+		{
+			"path": "pages/shop/shop",
+			"style": {
+				"navigationBarTitleText": "shop"
+			}
+		},
+		{
+			"path": "pages/my/my",
+			"style": {
+				"navigationBarTitleText": "my"
 			}
 		}
 	],
@@ -20,5 +38,35 @@
 		"navigationBarTitleText": "uni-app",
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8"
+	},
+	"tabBar": {
+		"selectedColor": "#428687",
+		"color": "#999999",
+		"list": [
+			{
+				"pagePath": "pages/shelf/shelf",
+				"text": "书架",
+				"iconPath": "static/tabs/shelf.png",
+				"selectedIconPath": "static/tabs/shelf-active.png"
+			},
+			{
+				"pagePath": "pages/city/city",
+				"text": "书城",
+				"iconPath": "static/tabs/city.png",
+				"selectedIconPath": "static/tabs/city-active.png"
+			},
+			{
+				"pagePath": "pages/shop/shop",
+				"text": "书库",
+				"iconPath": "static/tabs/shop.png",
+				"selectedIconPath": "static/tabs/shop-active.png"
+			},
+			{
+				"pagePath": "pages/my/my",
+				"text": "我的",
+				"iconPath": "static/tabs/my.png",
+				"selectedIconPath": "static/tabs/my-active.png"
+			}
+		]
 	}
 }

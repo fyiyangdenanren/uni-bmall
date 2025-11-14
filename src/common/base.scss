@@ -1,0 +1,13 @@
+/* 去除常见标签默认的 margin 和 padding */
+view,
+swiper,
+swiper-item {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* 设置image的垂直对齐方式为居中对齐，去除img默认下间隙 */
+iamge {
+    vertical-align: middle;
+}

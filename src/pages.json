@@ -11,7 +11,8 @@
 		{
 			"path": "pages/shelf/shelf",
 			"style": {
-				"navigationBarTitleText": "shelf"
+				"navigationBarTitleText": "书架",
+				"navigationBarBackgroundColor": "#FFF"
 			}
 		},
 		{

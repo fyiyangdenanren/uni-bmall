@@ -1,10 +1,7 @@
 <template>
   <view>
     <!-- 搜索 -->
-    <view class="search">
-      <image class="icon" src="@/static/mall_icons/search.png" />
-      <input type="text" placeholder="请输入书名或作者" />
-    </view>
+    <common-search></common-search>
 
     <!-- 轮播图 -->
     <swiper indicator-dots autoplay circular :interval="3000" :duration="1000">
@@ -77,34 +74,10 @@
 
 <script setup lang='ts'>
 import CommonTitle from '@/components/common-title.vue'
+import CommonSearch from '@/components/common-search.vue'
 </script>
 
 <style scoped lang='scss'>
-/* 搜索区域 */
-.search {
-  position: relative;
-  margin: 20rpx 40rpx 40rpx 40rpx;
-
-  .icon {
-    height: 36rpx;
-    width: 36rpx;
-    position: absolute;
-    left: 30rpx;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #999;
-  }
-
-  input {
-    width: 670rpx;
-    height: 64rpx;
-    padding-left: 100rpx;
-    border-radius: 32rpx;
-    line-height: 64rpx;
-    background-color: #f5f5f5;
-  }
-}
-
 /* 轮播图区域 */
 swiper {
   height: 240rpx;

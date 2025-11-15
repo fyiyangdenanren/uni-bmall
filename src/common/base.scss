@@ -1,5 +1,8 @@
 /* 去除常见标签默认的 margin 和 padding */
 view,
+input,
+textarea,
+button,
 swiper,
 swiper-item {
     margin: 0;

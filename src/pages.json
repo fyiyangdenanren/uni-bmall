@@ -16,9 +16,10 @@
 			}
 		},
 		{
-			"path": "pages/city/city",
+			"path": "pages/mall/mall",
 			"style": {
-				"navigationBarTitleText": "city"
+				"navigationBarTitleText": "书城",
+				"navigationBarBackgroundColor": "#FFF"
 			}
 		},
 		{
@@ -51,10 +52,10 @@
 				"selectedIconPath": "static/tabs/shelf-active.png"
 			},
 			{
-				"pagePath": "pages/city/city",
+				"pagePath": "pages/mall/mall",
 				"text": "书城",
-				"iconPath": "static/tabs/city.png",
-				"selectedIconPath": "static/tabs/city-active.png"
+				"iconPath": "static/tabs/mall.png",
+				"selectedIconPath": "static/tabs/mall-active.png"
 			},
 			{
 				"pagePath": "pages/shop/shop",

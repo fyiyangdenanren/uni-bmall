@@ -8,9 +8,9 @@
     </view>
     <!-- 列表区域 -->
     <scroll-view scroll-y>
-      <view class="bookList" scroll-y>
+      <view class="bookList">
         <view class="item" v-for="item in 10">
-          <image src="@/images/山河岁月.jpg" />
+          <image src="@/images/山河岁月.png" />
         </view>
       </view>
     </scroll-view>

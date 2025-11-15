@@ -25,13 +25,13 @@
 		{
 			"path": "pages/shop/shop",
 			"style": {
-				"navigationBarTitleText": "shop"
+				"navigationBarTitleText": "书库"
 			}
 		},
 		{
 			"path": "pages/my/my",
 			"style": {
-				"navigationBarTitleText": "my"
+				"navigationBarTitleText": "我的"
 			}
 		}
 	],

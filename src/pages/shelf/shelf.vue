@@ -94,6 +94,7 @@ const changeTab = (index: number) => {
         /* 最多允许显示两行 */
         display: -webkit-box;
         -webkit-line-clamp: 2;
+        line-clamp: 2;
         -webkit-box-orient: vertical;
         white-space: normal;
         overflow: hidden;

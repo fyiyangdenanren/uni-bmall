@@ -16,16 +16,17 @@
   margin: 20rpx 40rpx 40rpx 40rpx;
 
   .icon {
-    height: 36rpx;
-    width: 36rpx;
+    height: 49rpx;
+    width: 49rpx;
     position: absolute;
     left: 30rpx;
-    top: 50%;
+    top: 53%;
     transform: translateY(-50%);
     color: #999;
   }
 
   input {
+    font-size: 28rpx;
     width: 670rpx;
     height: 64rpx;
     padding-left: 100rpx;

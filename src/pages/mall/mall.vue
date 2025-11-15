@@ -66,9 +66,7 @@
         <scroll-view scroll-x>
           <view class="book" v-for="item in 10">
             <image src="@/images/山河岁月.png" />
-            <view class="text">
-              <text>这是一本书这是一本书这是一本书这是一本书这是一本书这是一本书这是一本书</text>
-            </view>
+            <text>这是一本书这是一本书这是一本书这是一本书这是一本书这是一本书这是一本书</text>
           </view>
         </scroll-view>
       </view>
@@ -163,8 +161,7 @@ swiper {
         display: inline-block;
         margin-right: 20rpx;
 
-        .text {
-          width: 180rpx;
+        text {
           font-size: 24rpx;
           font-weight: 400;
           text-align: center;

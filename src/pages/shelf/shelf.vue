@@ -7,13 +7,16 @@
       </text>
     </view>
     <!-- 列表区域 -->
-    <scroll-view scroll-y>
-      <view class="bookList">
-        <view class="item" v-for="item in 10">
-          <image src="@/images/山河岁月.png" />
+    <view class="selectlist">
+      <scroll-view scroll-y>
+        <view class="bookList">
+          <view class="item" v-for="item in 10">
+            <image src="@/images/山河岁月.png" />
+            <text>这是一本书这是一本书这是一本书这是一本书这是一本书这是一本书这是一本书</text>
+          </view>
         </view>
-      </view>
-    </scroll-view>
+      </scroll-view>
+    </view>
 
   </view>
 </template>
@@ -67,18 +70,35 @@ const changeTab = (index: number) => {
 
 }
 
-.bookList {
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 40rpx 60rpx;
-  padding: 40rpx 0rpx 40rpx 40rpx;
+.selectlist {
+  .bookList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 114rpx 60rpx;
+    padding: 40rpx 0rpx 40rpx 40rpx;
 
-  .item {
-
-    image {
+    .item {
       width: 180rpx;
       height: 252rpx;
+
+      image {
+        width: 100%;
+        height: 100%;
+      }
+
+      text {
+        font-size: 24rpx;
+        font-weight: 400;
+        text-align: center;
+        line-height: 32rpx;
+        /* 最多允许显示两行 */
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        white-space: normal;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
     }
   }
 }

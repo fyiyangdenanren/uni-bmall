@@ -35,11 +35,11 @@
       </common-title>
       <!-- 书籍列表 -->
       <view class="booklist">
-        <scroll-view scroll-x>
-          <view class="book" v-for="item in 10">
-            <image src="@/images/山河岁月.png" />
+        <scroll-view scroll-x @scrolltolower="newScrolltolower">
+          <view class="book" v-for="n in newList?.list">
+            <image :src="n.coverImage" />
             <view class="text">
-              <text>这是一本书这是一本书这是一本书这是一本书这是一本书这是一本书这是一本书</text>
+              <text>{{ n.title }}</text>
             </view>
           </view>
         </scroll-view>
@@ -49,7 +49,7 @@
     <!-- 分隔条 -->
     <view class="divider"></view>
 
-    <!-- 排行榜 -->
+    <!-- 评分榜 -->
     <view class="score">
       <common-title>
         <template #name>排行榜</template>
@@ -60,10 +60,10 @@
       </common-title>
       <!-- 书籍列表 -->
       <view class="booklist">
-        <scroll-view scroll-x>
-          <view class="book" v-for="item in 10">
-            <image src="@/images/山河岁月.png" />
-            <text>这是一本书这是一本书这是一本书这是一本书这是一本书这是一本书这是一本书</text>
+        <scroll-view scroll-x @scrolltolower="scoreScrolltolower">
+          <view class="book" v-for="b in scoreList?.list">
+            <image :src="b.coverImage" />
+            <text>{{ b.title }}</text>
           </view>
         </scroll-view>
       </view>
@@ -75,6 +75,69 @@
 <script setup lang='ts'>
 import CommonTitle from '@/components/common-title.vue'
 import CommonSearch from '@/components/common-search.vue'
+import { onMounted, ref } from 'vue';
+import { getScoreBooks, getNewBooks } from '@/api/mall'
+import { PageDTO } from '@/types/page';
+import { BookVO } from '@/types/mall';
+
+const scoreList = ref<PageDTO<BookVO>>()
+const newList = ref<PageDTO<BookVO>>()
+/* 获取新书书籍列表 */
+const getNewTop = async () => {
+  const res = await getNewBooks()
+  newList.value = res.data
+}
+/* 获取评分书籍列表 */
+const getScoreTop = async () => {
+  const res = await getScoreBooks()
+  scoreList.value = res.data
+}
+
+/* 触底事件 */
+const newScrolltolower = async () => {
+  // 1.条件判断
+  if (newList.value!.pageNum < newList.value!.pages) {
+    // 2.当前页码 + 1
+    newList.value!.pageNum++
+    // 3.请求数据
+    const res = await getNewBooks({
+      pageNum: newList.value!.pageNum,
+      pageSize: newList.value!.pageSize
+    })
+    // 4.追加数据
+    newList.value!.list.push(...res.data.list)
+  } else {
+    uni.showToast({
+      title: '没有更多数据了',
+      icon: 'none'
+    })
+  }
+}
+
+const scoreScrolltolower = async () => {
+  // 1.条件判断
+  if (scoreList.value!.pageNum < scoreList.value!.pages) {
+    // 2.当前页码 + 1
+    scoreList.value!.pageNum++
+    // 3.请求数据
+    const res = await getScoreBooks({
+      pageNum: scoreList.value!.pageNum,
+      pageSize: scoreList.value!.pageSize
+    })
+    // 4.追加数据
+    scoreList.value!.list.push(...res.data.list)
+  } else {
+    uni.showToast({
+      title: '没有更多数据了',
+      icon: 'none'
+    })
+  }
+}
+
+onMounted(() => {
+  getNewTop()
+  getScoreTop()
+})
 </script>
 
 <style scoped lang='scss'>

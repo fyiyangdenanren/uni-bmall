@@ -38,9 +38,7 @@
         <scroll-view scroll-x @scrolltolower="newScrolltolower">
           <view class="book" v-for="n in newList?.list">
             <image :src="n.coverImage" />
-            <view class="text">
-              <text>{{ n.title }}</text>
-            </view>
+            <text>{{ n.title }}</text>
           </view>
         </scroll-view>
       </view>
@@ -198,6 +196,7 @@ swiper {
         margin-right: 20rpx;
 
         text {
+          height: 64rpx;
           font-size: 24rpx;
           font-weight: 400;
           text-align: center;

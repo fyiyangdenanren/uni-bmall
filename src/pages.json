@@ -35,6 +35,12 @@
 				"navigationBarTitleText": "我的",
 				"navigationBarBackgroundColor": "#FFF"
 			}
+		},
+		{
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "login"
+			}
 		}
 	],
 	"globalStyle": {

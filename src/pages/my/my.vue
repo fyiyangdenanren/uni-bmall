@@ -21,8 +21,7 @@ const handleUserProfile = async () => {
       }
       try {
         // 3.保存用户信息
-        const wxUserVO = await saveUserProfile(decrypt);
-        console.log("response:" + wxUserVO)
+        await saveUserProfile(decrypt);
       } catch (error) {
         console.error("保存用户信息失败:", error)
       }

@@ -1,3 +1,30 @@
+<script setup lang='ts'>
+import CommonSearch from '@/components/common-search.vue'
+import { onMounted, ref } from 'vue'
+// tab 集合
+const tabs = ['免费', '付费']
+// 当前选中索引
+const currentTab = ref(0)
+const changeTab = (index: number) => {
+  currentTab.value = index
+}
+// 分类类型列表
+const categories = ref(['计算机', '人文艺术', '科幻', '语言', '科学'])
+// 激活初始索引
+const active = ref(0)
+const changeActive = (index: number) => {
+  active.value = index
+}
+// 获取当前系统的信息
+const systemInfo = uni.getSystemInfoSync()
+// 获取当前屏幕的高度
+const wh = ref(systemInfo.windowHeight);
+onMounted(() => {
+  // 获取当前屏幕的高度
+  wh.value = systemInfo.windowHeight - uni.upx2px(200);
+})
+</script>
+
 <template>
   <view>
     <!-- 搜索框 -->
@@ -31,33 +58,6 @@
 
   </view>
 </template>
-
-<script setup lang='ts'>
-import CommonSearch from '@/components/common-search.vue'
-import { onMounted, ref } from 'vue'
-// tab 集合
-const tabs = ['免费', '付费']
-// 当前选中索引
-const currentTab = ref(0)
-const changeTab = (index: number) => {
-  currentTab.value = index
-}
-// 分类类型列表
-const categories = ref(['计算机', '人文艺术', '科幻', '语言', '科学'])
-// 激活初始索引
-const active = ref(0)
-const changeActive = (index: number) => {
-  active.value = index
-}
-// 获取当前系统的信息
-const systemInfo = uni.getSystemInfoSync()
-// 获取当前屏幕的高度
-const wh = ref(systemInfo.windowHeight);
-onMounted(() => {
-  // 获取当前屏幕的高度
-  wh.value = systemInfo.windowHeight - uni.upx2px(200);
-})
-</script>
 
 <style scoped lang='scss'>
 .selection {

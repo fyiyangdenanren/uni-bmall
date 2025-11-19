@@ -1,10 +1,11 @@
-import { UserState } from "@/types/user";
+import { UserInfo, UserState } from "@/types/user";
 import { defineStore } from "pinia";
 
 export const useUserStore = defineStore("user", {
     state: (): UserState => {
         return {
             token: null,
+            userInfo: null
         }
     },
     actions: {
@@ -15,6 +16,14 @@ export const useUserStore = defineStore("user", {
         // 清空token
         clearToken() {
             this.token = null;
+        },
+        // 保存用户信息
+        setUserInfo(userInfo: UserInfo) {
+            this.userInfo = userInfo;
+        },
+        // 清空用户信息
+        clearUserInfo() {
+            this.userInfo = null;
         }
     },
     // 配置持久化

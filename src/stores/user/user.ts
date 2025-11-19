@@ -1,11 +1,11 @@
-import { UserInfo, UserState } from "@/types/user";
+import { UserProfile, UserState } from "@/types/user";
 import { defineStore } from "pinia";
 
 export const useUserStore = defineStore("user", {
     state: (): UserState => {
         return {
             token: null,
-            userInfo: null
+            userProfile: null
         }
     },
     actions: {
@@ -18,12 +18,16 @@ export const useUserStore = defineStore("user", {
             this.token = null;
         },
         // 保存用户信息
-        setUserInfo(userInfo: UserInfo) {
-            this.userInfo = userInfo;
+        setUserProfile(userProfile: UserProfile) {
+            this.userProfile = userProfile;
         },
         // 清空用户信息
-        clearUserInfo() {
-            this.userInfo = null;
+        clearUserProfile() {
+            this.userProfile = null;
+        },
+        // 获取用户信息
+        getUserProfile() {
+            return this.userProfile;
         }
     },
     // 配置持久化

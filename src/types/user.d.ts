@@ -1,9 +1,9 @@
 export type UserState = {
     token: string | null;
-    userInfo: UserInfo | null;
+    userProfile: UserProfile | null;
 };
 
-export type UserInfo = {
+export type UserProfile = {
     nickname: string;
     avatarUrl: string;
     gender: number;

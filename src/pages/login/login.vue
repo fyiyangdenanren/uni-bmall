@@ -25,7 +25,7 @@ const handleLogin = async () => {
         // 5.跳转首页
         setTimeout(() => {
           uni.switchTab({
-            url: '/pages/shelf/shelf'
+            url: '/pages/my/my'
           })
         }, 1000)
       } catch (err) {

@@ -4,8 +4,8 @@ import { defineStore } from "pinia";
 export const useUserStore = defineStore("user", {
     state: (): UserState => {
         return {
-            token: null,
-            userProfile: null
+            token: '',
+            userProfile: {}
         }
     },
     actions: {
@@ -15,7 +15,7 @@ export const useUserStore = defineStore("user", {
         },
         // 清空token
         clearToken() {
-            this.token = null;
+            this.token = '';
         },
         // 保存用户信息
         setUserProfile(userProfile: UserProfile) {
@@ -23,7 +23,7 @@ export const useUserStore = defineStore("user", {
         },
         // 清空用户信息
         clearUserProfile() {
-            this.userProfile = null;
+            this.userProfile = {};
         },
         // 获取用户信息
         getUserProfile() {

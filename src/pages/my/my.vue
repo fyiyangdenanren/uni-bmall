@@ -1,9 +1,38 @@
 <script setup lang='ts'>
+import { saveUserProfile } from '@/api/my';
 import { useUserStore } from '@/stores/user/user';
+import { DecryptDTO } from '@/types/my';
 import { UserProfile } from '@/types/user';
+import { onMounted } from 'vue';
 const userStore = useUserStore()
 const userProfile = userStore.getUserProfile() as UserProfile
+const handleUserProfile = async () => {
+  uni.getUserProfile({
+    desc: '用于完善个人资料',
+    success: async (res) => {
+      // 1.缓存用户信息
+      userStore.setUserProfile(res.userInfo as unknown as UserProfile);
+      // 2.封装响应体
+      const decrypt: DecryptDTO = {
+        rawData: res.rawData,
+        signature: res.signature,
+        iv: res.iv,
+        encryptedData: res.encryptedData
+      }
+      try {
+        // 3.保存用户信息
+        const wxUserVO = await saveUserProfile(decrypt);
+        console.log("response:" + wxUserVO)
+      } catch (error) {
+        console.error("保存用户信息失败:", error)
+      }
+    },
+  })
+}
 
+onMounted(() => {
+  handleUserProfile()
+})
 </script>
 
 
@@ -13,10 +42,10 @@ const userProfile = userStore.getUserProfile() as UserProfile
     <view class="user-profile">
       <!-- 头像区域 -->
       <view class="avatar">
-        <image src="@/images/man.jpg"></image>
+        <image :src="userProfile.avatarUrl"></image>
         <view class="text">
-          <text class="nickname" v-if="userProfile.nickname">{{ userProfile.nickname }}</text>
-          <text v-else class="prompt-text" @click="getUserProfile">
+          <text class="nickname" v-if="userProfile.nickName">{{ userProfile.nickName }}</text>
+          <text v-else class="prompt-text" @click="handleUserProfile">
             点击完善个人信息
           </text>
           <text class="say">时间不等人啊，少年</text>

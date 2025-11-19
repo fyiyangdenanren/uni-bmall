@@ -1,14 +1,15 @@
 export type UserState = {
-    token: string | null;
-    userProfile: UserProfile | null;
+    token: string;
+    userProfile: UserProfile | {};
 };
 
 export type UserProfile = {
-    nickname: string;
     avatarUrl: string;
-    gender: number;
-    country: string;
-    province: string;
     city: string;
+    country: string;
+    gender: number;
     language: string;
+    nickName: string;
+    province: string;
+
 }

@@ -1,12 +1,24 @@
+<script setup lang='ts'>
+import { useUserStore } from '@/stores/user/user';
+import { UserProfile } from '@/types/user';
+const userStore = useUserStore()
+const userProfile = userStore.getUserProfile() as UserProfile
+
+</script>
+
+
 <template>
   <view>
     <!-- 用户信息区域 -->
-    <view class="user-info">
+    <view class="user-profile">
       <!-- 头像区域 -->
       <view class="avatar">
         <image src="@/images/man.jpg"></image>
         <view class="text">
-          <text class="nickname">风一样的男人</text>
+          <text class="nickname" v-if="userProfile.nickname">{{ userProfile.nickname }}</text>
+          <text v-else class="prompt-text" @click="getUserProfile">
+            点击完善个人信息
+          </text>
           <text class="say">时间不等人啊，少年</text>
         </view>
       </view>
@@ -88,13 +100,9 @@
   </view>
 </template>
 
-<script setup lang='ts'>
-
-</script>
-
 <style scoped lang='scss'>
 /* 用户信息区域 */
-.user-info {
+.user-profile {
   width: 100%;
   height: 408rpx;
   background-color: #ffffff;

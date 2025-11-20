@@ -52,10 +52,8 @@ onMounted(async () => {
  */
 const loadCategories = async () => {
   const res = await getCategories()
-  console.log(res);
   categories.value = res.data
 }
-
 
 const loading = ref(false)
 
@@ -68,7 +66,7 @@ const loadBooks = async () => {
 
   const cid = categories.value[active.value]?.categoryId
   if (!cid) return
-  const res = await getBooks({ categoryId: cid, pageNum: 1, pageSize: 20 })
+  const res = await getBooks({ categoryId: cid, pageNum: 1, pageSize: 18 })
   books.value = res.data
   loading.value = false
 }
@@ -95,7 +93,6 @@ const onScrolltolower = async () => {
     })
   }
 }
-
 
 </script>
 
@@ -225,6 +222,7 @@ const onScrolltolower = async () => {
         }
 
         text {
+          height: 64rpx;
           width: 130rpx;
           font-size: 24rpx;
           font-weight: 400;

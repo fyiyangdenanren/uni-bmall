@@ -35,8 +35,7 @@ export type BookVO = {
 export type BookQuery = PageQuery & {
     title?: string
     author?: string
+    publisher?: string
     categoryId?: number
-    summary?: string
-    coverImage?: string
-    categoryName?: string
+    isFree?: number
 }

@@ -16,6 +16,7 @@ const wh = ref(systemInfo.windowHeight);
  */
 const changeTab = (index: number) => {
   currentTab.value = index
+  loadBooks()
 }
 
 // 右侧图书
@@ -66,7 +67,12 @@ const loadBooks = async () => {
 
   const cid = categories.value[active.value]?.categoryId
   if (!cid) return
-  const res = await getBooks({ categoryId: cid, pageNum: 1, pageSize: 18 })
+  const res = await getBooks({
+    categoryId: cid,
+    pageNum: 1,
+    pageSize: 18,
+    isFree: currentTab.value === 0 ? 1 : 0
+  })
   books.value = res.data
   loading.value = false
 }

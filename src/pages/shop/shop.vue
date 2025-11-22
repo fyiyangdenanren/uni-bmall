@@ -1,105 +1,131 @@
-<script setup lang='ts'>
+<script setup lang="ts">
 import { getBooks, getCategories } from '@/api/shop'
 import CommonSearch from '@/components/common-search.vue'
 import { BookVO } from '@/types/mall'
 import { PageDTO } from '@/types/page'
 import { Category } from '@/types/shop'
 import { onMounted, ref } from 'vue'
+
 const tabs = ['免费', '付费']
 const currentTab = ref(0)
 const active = ref(0)
+
 // 获取当前系统可用区域高度
 const systemInfo = uni.getSystemInfoSync()
 const wh = ref(systemInfo.windowHeight);
-/**
- * 激活价格区域索引
- */
+
+/** 右侧图书 */
+const books = ref<PageDTO<BookVO> | undefined>()
+
+/** 分类类型列表 */
+const categories = ref<Category[]>([])
+
+const loading = ref(false)
+const noMore = ref(false)
+
+/** 切换免费/付费 */
 const changeTab = (index: number) => {
+  if (currentTab.value === index) return
   currentTab.value = index
+  // 切换过滤，重置分页与旧数据
+  books.value = undefined
+  loadBooks() // 不 await，ui 更流畅（也可以 await）
+}
+
+/** 激活分类 */
+const changeActive = (index: number) => {
+  if (active.value === index) return
+  active.value = index
+  books.value = undefined
   loadBooks()
 }
 
-// 右侧图书
-const books = ref<PageDTO<BookVO>>()
-/**
- * 激活分类区域索引
- */
-const changeActive = async (index: number) => {
-  active.value = index
-  // 清空旧数据
-  if (books.value) {
-    books.value = undefined
-  }
-  await loadBooks()
-}
-
-// 分类类型列表
-const categories = ref<Category[]>([])
-
-/**
- * 挂载时加载
- */
+/** 挂载时加载 */
 onMounted(async () => {
-  // 获取当前屏幕的高度
   wh.value = systemInfo.windowHeight - uni.upx2px(200);
-  // 加载分类列表
   await loadCategories()
-  // 加载图书列表
   await loadBooks()
 })
 
-/**
- * 加载分类列表
- */
+/** 加载分类列表 */
 const loadCategories = async () => {
   const res = await getCategories()
-  categories.value = res.data
+  categories.value = res.data || []
 }
 
-const loading = ref(false)
-
 /**
- * 加载图书列表
+ * 加载图书列表（默认加载第一页，覆盖现有数据）
  */
 const loadBooks = async () => {
   if (loading.value) return
-  loading.value = true
-
+  // 取当前分类 id
   const cid = categories.value[active.value]?.categoryId
-  if (!cid) return
-  const res = await getBooks({
-    categoryId: cid,
-    pageNum: 1,
-    pageSize: 18,
-    isFree: currentTab.value === 0 ? 1 : 0
-  })
-  books.value = res.data
-  loading.value = false
+  if (!cid) {
+    // 没有分类时不继续（确保 loading 没被置为 true）
+    return
+  }
+
+  loading.value = true
+  // 判断是否加载完全部数据
+  noMore.value = false
+
+  try {
+    // 请求第一页（覆盖）
+    const res = await getBooks({
+      categoryId: cid,
+      pageNum: 1,
+      pageSize: 18,
+      isFree: currentTab.value === 0 ? 1 : 0
+    })
+    books.value = res.data
+  } catch (err) {
+    console.error('加载图书失败', err)
+    uni.showToast({ title: '加载图书失败', icon: 'none' })
+  } finally {
+    loading.value = false
+  }
 }
 
 /**
  * 触底事件
  */
 const onScrolltolower = async () => {
-  // 1.条件判断
-  if (books.value!.pageNum < books.value!.pages) {
-    // 2.当前页码 + 1
-    books.value!.pageNum++
-    // 3.请求数据
-    const res = await getBooks({
-      pageNum: books.value!.pageNum,
-      pageSize: books.value!.pageSize
-    })
-    // 4.追加数据
-    books.value!.list.push(...res.data.list)
+  // 条件判断
+  if (noMore.value || loading.value || !books.value) return
+
+  // 是否还有下一页
+  if (books.value.pageNum < books.value.pages) {
+    if (loading.value) return
+    loading.value = true
+    try {
+      const nextPage = books.value.pageNum + 1
+      // 翻页请求带上 categoryId 与 isFree 等过滤条件
+      const cid = categories.value[active.value]?.categoryId
+      if (!cid) return
+      const res = await getBooks({
+        categoryId: cid,
+        pageNum: nextPage,
+        pageSize: books.value.pageSize,
+        isFree: currentTab.value === 0 ? 1 : 0
+      })
+      // 追加数据
+      books.value.list.push(...(res.data.list || []))
+      books.value.pageNum = res.data.pageNum
+      books.value.pages = res.data.pages
+    } catch (err) {
+      console.error('加载更多失败', err)
+      uni.showToast({ title: '加载更多失败', icon: 'none' })
+    } finally {
+      loading.value = false
+    }
   } else {
+    noMore.value = true
     uni.showToast({
       title: '没有更多数据了',
       icon: 'none'
     })
   }
 }
-
 </script>
 
 <template>
@@ -125,7 +151,7 @@ const onScrolltolower = async () => {
       </scroll-view>
       <scroll-view scroll-y class="right" :style="{ height: wh + 'px' }" @scrolltolower="onScrolltolower">
         <view class="booklist">
-          <view class="book-item" v-for="(b, i) in books?.list" :key="b.bookId">
+          <view class="book-item" v-for="b in books?.list" :key="b.bookId">
             <image :src="b.coverImage" />
             <text>{{ b.title }}</text>
           </view>
